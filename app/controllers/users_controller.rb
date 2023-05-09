@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   def authenticate
     un = params.fetch("input_username")
-    un = params.fetch("input_password")
+    pw = params.fetch("input_password")
 
     user = User.where({ :username => un }).at(0)
 
@@ -11,8 +11,7 @@ class UsersController < ApplicationController
       else
           if user.authenticate(pw)
             session.store(:user_id, user.id)
-
-        redirect_to("/", { :notice => "Welcome back, " + user.username})
+            redirect_to("/", { :notice => "Welcome back, " + user.username})
           else
             redirect_to("/user_sign_in", { :alert => "Nice try, sucker!" })
           end
